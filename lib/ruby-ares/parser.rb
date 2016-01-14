@@ -11,23 +11,22 @@ module RubyARES
     class ParseError < StandardError; end
 
     def self.get_subject(xml)
+      ic, dic, name, status, addresses, updated_at, legal_form = nil
       begin
         doc = self.parse_document xml
 
         # Basic info
         doc.find('//D:VBAS').each do |node|
-          attrs = node.children()
-
           # Attributes of the subject
-          @status = node.find("D:ROR/D:SOR/D:SSU").to_a[0].content unless node.find('D:ROR/D:SOR/D:SSU').to_a.size == 0
-          @ic = node.find('D:ICO').to_a[0].content unless node.find('D:ICO').to_a.size == 0
-          @dic = node.find('D:DIC').to_a[0].content unless node.find('D:DIC').to_a.size == 0
-          @name = node.find('D:OF').to_a[0].content unless node.find('D:OF').to_a.size == 0
-          @legal_form = node.find('D:PF/D:NPF').to_a[0].content unless node.find('D:PF/D:NPF').to_a.size == 0
+          status = node.find("D:ROR/D:SOR/D:SSU").to_a[0].content unless node.find('D:ROR/D:SOR/D:SSU').to_a.size == 0
+          ic = node.find('D:ICO').to_a[0].content unless node.find('D:ICO').to_a.size == 0
+          dic = node.find('D:DIC').to_a[0].content unless node.find('D:DIC').to_a.size == 0
+          name = node.find('D:OF').to_a[0].content unless node.find('D:OF').to_a.size == 0
+          legal_form = node.find('D:PF/D:NPF').to_a[0].content unless node.find('D:PF/D:NPF').to_a.size == 0
         end
 
         # Corresponding addresses
-        @addresses = self.find_addresses doc
+        addresses = self.find_addresses doc
       rescue
         raise ParseError, "Can't parse the given document."
       end
@@ -37,13 +36,13 @@ module RubyARES
       end
 
       # Create and return subject
-      return RubyARES::Subject.new(@ic, @dic, @name, @status, @addresses, @updated_at, @legal_form)
+      return RubyARES::Subject.new(ic, dic, name, status, addresses, updated_at, legal_form)
     end
 
     protected
 
       def self.find_addresses(doc)
-        @addresses = []
+        addresses = []
 
         doc.find('//D:AA').each do |node|
           id = node.find('D:IDA').to_a[0].content
@@ -55,11 +54,11 @@ module RubyARES
           house_number_type = node.find('D:TCD').to_a[0].content unless node.find('D:TCD').to_a.size == 0
           orientational_number = node.find('D:CO').to_a[0].content unless node.find('D:CO').to_a.size == 0
 
-          @addresses << RubyARES::Address.new(id, street, postcode, city, city_part,
+          addresses << RubyARES::Address.new(id, street, postcode, city, city_part,
                                           house_number, house_number_type, orientational_number)
         end
 
-        return @addresses
+        return addresses
       end
 
       def self.parse_document(xml)
