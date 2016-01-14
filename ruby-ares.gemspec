@@ -3,15 +3,14 @@ require 'rake'
 require 'rake/testtask'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
-require 'ruby-ares'
 
 gemspec = Gem::Specification.new do |s|
   s.name     = 'ruby-ares'
-  s.version  = RubyARES::VERSION
+  s.version  = '0.0.4'
   s.platform = Gem::Platform::RUBY
   s.summary     = 'Gem for accesing business information from ARES database.'
   s.description = <<-EOF
-                    ARES is the Czech business database maintained by Ministry of Finance of the Czech Republic.
+                    ARES is the Czech bu    siness database maintained by Ministry of Finance of the Czech Republic.
                     This gem helps to retrieve data provided by this database.
                   EOF
   s.licenses = ['GPLv3']
