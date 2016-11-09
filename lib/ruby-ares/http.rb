@@ -7,9 +7,9 @@ module RubyARES
 
     class ConnectionError < StandardError; end
 
-    def self.fetch_subject_xml(ic)
+    def self.fetch_subject_xml(ic, url = 'http://wwwinfo.mfcr.cz/cgi-bin/ares/darv_bas.cgi')
       # Get a subject info from ARES[http://wwwinfo.mfcr.cz/ares/]
-      uri = URI('http://wwwinfo.mfcr.cz/cgi-bin/ares/darv_bas.cgi')
+      uri = URI(url)
       params = { :ico => ic, :version => '1.0.3' }
       uri.query = URI.encode_www_form(params)
 

@@ -15,8 +15,8 @@ module RubyARES
                 :addresses,
                 :updated_at # Datum_zmeny
 
-    def self.get(ic)
-      xml = RubyARES::HTTP.fetch_subject_xml ic
+    def self.get(ic, url = 'http://wwwinfo.mfcr.cz/cgi-bin/ares/darv_bas.cgi')
+      xml = RubyARES::HTTP.fetch_subject_xml(ic, url)
       RubyARES::Parser.get_subject xml
     end
 

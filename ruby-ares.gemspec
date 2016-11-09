@@ -6,7 +6,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
 gemspec = Gem::Specification.new do |s|
   s.name     = 'ruby-ares'
-  s.version  = '0.0.4'
+  s.version  = '0.0.5'
   s.platform = Gem::Platform::RUBY
   s.summary     = 'Gem for accesing business information from ARES database.'
   s.description = <<-EOF
